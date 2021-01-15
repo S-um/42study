@@ -38,7 +38,7 @@ int solution(int *a, size_t a_len)
 
 	i = 0;
 	while(i < a_len) {
-		//printf("in solution %d in index %d\n",num[i].num, i);
+		printf("in solution %d in index %d\n",num[i].num, i);
 		len = 0;
 		pivotindex = i;
 		temp = num[i].num;
@@ -46,7 +46,7 @@ int solution(int *a, size_t a_len)
 			++len;
 			++i;
 		}
-		if(answer > len) continue;
+		if(answer >= len) continue;
 		temp = longest(a,a_len,num+pivotindex,len);
 		if(temp > answer) answer = temp;
 		//printf("len : %d\n", len);
@@ -69,28 +69,34 @@ int longest(int *a, size_t a_len, n *arr, size_t arr_len)
 	int i, index, answer = 0, leftflag, rightflag, j, searchleft;
 	int *usedindex = (int*)malloc(arr_len * sizeof(int));
 	for(i = 0;i<arr_len;++i) usedindex[i] = -1;
+	printf("start searching %d\n\n", arr[0].num);
+	printf("start index %d\n", (*arr).index);
 
 	i = 0;
 	if((*arr).index == 0) {
 		if(a[1] != a[0]) {
-			++i;
 			++answer;
 			usedindex[0] = 1;
 		}
+		++i;
 	}
 	while(i<arr_len) {
 		//if(i==0) printf("%d\n",arr[i].num);
 		index = arr[i].index;
+		printf("searching index %d\n", index);
 		if(index == a_len-1) {
-			if(usedindex[i-1] != index -1) {
+			if(usedindex[i-1] != index -1 && a[index-1] != a[index]) {
 				++answer;
 			}
+	printf("end searching %d\n\n--------------------------------\n\n", arr[0].num);
 			return answer;
 		}
 		leftflag = 0;
 		searchleft = 1;
 		rightflag = 1;
+		printf("searching left %d\n",a[index-1]);
 		if(a[index-1] == a[index]) searchleft = 0;
+		printf("searching right %d\n", a[index+1]);
 		if(a[index+1] == a[index]) rightflag = 0;
 		if(searchleft) {
 			if(i == 0) {
@@ -123,5 +129,6 @@ int longest(int *a, size_t a_len, n *arr, size_t arr_len)
 
 	}
 
+	printf("end searching %d\n\n--------------------------------\n\n", arr[0].num);
 	return answer;
 }
