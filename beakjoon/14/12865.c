@@ -18,6 +18,11 @@ int main(void)
 	}
 	printf("%d\n", backpack(pack, pack_count, max));
 
+	i = 0;
+	while(i<pack_count)
+		free(pack[i++]);
+	free(pack);
+
 	return 0;
 }
 
