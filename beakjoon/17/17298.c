@@ -44,6 +44,7 @@ int main(void)
 			printf("%d ", NGE[i]);
 		else
 			printf("-1 ");
+		free(num[i]);
 		++i;
 	}
 	printf("\n");
