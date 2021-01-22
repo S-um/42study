@@ -13,6 +13,7 @@ int main(void)
 
 void function(int _iCount, ...)
 {
+	//not work at gcc compiler
 	int *iPtr = &_iCount + 1;
 	printf("%d \n", *iPtr);
 	printf("%d \n", *(iPtr + 1));
