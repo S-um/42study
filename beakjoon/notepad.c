@@ -1,26 +1,20 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 
-int main()
+int main(void)
 {
-	long long A,B,C;
-	scanf("%lld %lld %lld", &A, &B, &C);
-
-	long long in, out, BEP;
-	BEP = 0;
-	in = BEP * C;
-	out = A + B * BEP;
-
-	if(C>B)
-		while(out >= in)
-		{
-			BEP++;
-			in = BEP * C;
-			out = A + (B * BEP);
-		}
-	else BEP = -1;
-
-	printf("%lld\n", BEP);
-
-	return 0;
+	int *arr = (int*)malloc(6*sizeof(int));
+	++arr;
+	int i = -1;
+	while(i<5) {
+		arr[i] = i;
+		++i;
+	}
+	i = -1;
+	while(i<5)
+		printf("%d ",arr[i++]);
+	printf("\n");
+	--arr;
+	free(arr);
 }
