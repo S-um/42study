@@ -36,7 +36,7 @@ void push(int *q, int num, int index)
 	int temp;
 	q[index] = num;
 	while(index>1) {
-		if(q[index]>q[index/2]) {
+		if(q[index]<q[index/2]) {
 			temp = q[index];
 			q[index] = q[index/2];
 			q[index/2] = temp;
@@ -54,8 +54,8 @@ int pop(int *q, int index)
 	q[index] = 0;
 	i = 1;
 	while(i*2<index) {
-		if(q[i*2]>=q[i*2+1]) {
-			if(q[i]<q[i*2]) {
+		if(q[i*2]<=q[i*2+1] || !q[i*2+1]) {
+			if(q[i]>q[i*2]) {
 				temp = q[i];
 				q[i] = q[i*2];
 				q[i*2] = temp;
@@ -63,7 +63,7 @@ int pop(int *q, int index)
 			}else
 				break;
 		}else{
-			if(q[i]<q[i*2+1]) {
+			if(q[i]>q[i*2+1]) {
 				temp = q[i];
 				q[i] = q[i*2+1];
 				q[i*2+1] = temp;
