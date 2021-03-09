@@ -9,7 +9,7 @@ int main(void)
 {
     char size;
     scanf("%hhd", &size);
-    printf("this is : %d\n", nqueen(size));
+    printf("%d\n", nqueen(size));
 
     return 0;
 }
