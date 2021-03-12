@@ -4,17 +4,15 @@
 
 int main(void)
 {
-	int *arr = (int*)malloc(6*sizeof(int));
-	++arr;
-	int i = -1;
-	while(i<5) {
-		arr[i] = i;
-		++i;
-	}
-	i = -1;
-	while(i<5)
-		printf("%d ",arr[i++]);
-	printf("\n");
-	--arr;
-	free(arr);
+	long i;
+	i = 42;
+
+	long *ptr1;
+	long fake_ptr;
+
+	ptr1 = &i;
+	fake_ptr = (long)ptr1;
+
+	printf("fake_ptr : %ld\n",fake_ptr);
+	printf("*(int*)fake_ptr : %ld\n",*(long*)fake_ptr);
 }
