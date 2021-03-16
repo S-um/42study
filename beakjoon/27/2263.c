@@ -32,6 +32,7 @@ int main(void)
 		in[in_input] = i;
 		++i;
 	}
+	in[0] = 0;
 	i = 1;
 	while(i<=vertex_cnt)
 		scanf("%d",post+(i++));
