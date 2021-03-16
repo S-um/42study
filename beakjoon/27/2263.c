@@ -32,7 +32,6 @@ int main(void)
 		in[in_input] = i;
 		++i;
 	}
-	in[0] = 0;
 	i = 1;
 	while(i<=vertex_cnt)
 		scanf("%d",post+(i++));
@@ -50,13 +49,13 @@ binary_tree *make_tree(int *post, int *in, int vertex_cnt, int last_in_index)
 	binary_tree *new;
 	if(post[0]<1)
 		return NULL;
-	if(in[post[0]]<in[last_in_index])
+	if(in[post[post[0]]]<last_in_index)
 		return NULL;
 
 	new = (binary_tree*)malloc(sizeof(binary_tree));
 	new->vertex = post[post[0]];
 	--post[0];
-	new->right = make_tree(post,in,vertex_cnt,new->vertex);
+	new->right = make_tree(post,in,vertex_cnt,in[new->vertex]);
 	new->left = make_tree(post,in,vertex_cnt,last_in_index);
 	return new;
 }
