@@ -174,6 +174,7 @@ int pop_min_q(int *min_q, id *index_data)
 					temp = min_q[q_index];
 					min_q[q_index] = min_q[q_index*2];
 					min_q[q_index*2] = temp;
+					q_index *= 2;
 				}
 				else
 					break;
@@ -189,6 +190,7 @@ int pop_min_q(int *min_q, id *index_data)
 						temp = min_q[q_index];
 						min_q[q_index] = min_q[q_index*2];
 						min_q[q_index*2] = temp;
+						q_index *= 2;
 					}
 					else
 						break;
@@ -202,13 +204,12 @@ int pop_min_q(int *min_q, id *index_data)
 						temp = min_q[q_index];
 						min_q[q_index] = min_q[q_index*2+1];
 						min_q[q_index*2+1] = temp;
+						q_index = q_index*2 + 1;
 					}
 					else
 						break;
 				}
 			}
-
-			q_index *= 2;
 		}
 
 		--min_q[0];
