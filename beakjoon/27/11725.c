@@ -2,14 +2,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct s_q
+{
+	int linked_vertex;
+	struct s_q *next;
+}q;
+
 typedef struct s_link
 {
 	int root_vertex;
-	int linked_vertex[3];
+	q *sp;
+	q *ep;
 }link;
 
 void push_link_data(link *link_data, int vertex1, int vertex2);
 void link_data_to_tree(link *link_data, int cur_vertex);
+
+void free_link_data(link *link_data, int vertex_cnt);
 
 int main(void)
 {
@@ -38,47 +47,77 @@ int main(void)
 		printf("%d\n",link_data[i].root_vertex);
 		++i;
 	}
-	free(link_data);
+	free_link_data(link_data, vertex_cnt);
 }
 
 void push_link_data(link *link_data, int vertex1, int vertex2)
 {
-	int i;
-	i = 0;
-	while(i<3)
+	q *new1;
+	q *new2;
+
+	new1 = (q*)malloc(sizeof(q));
+	new1->linked_vertex = vertex2;
+	new1->next = NULL;
+	new2 = (q*)malloc(sizeof(q));
+	new2->linked_vertex = vertex1;
+	new2->next = NULL;
+
+	if(link_data[vertex1].sp)
 	{
-		if(!link_data[vertex1].linked_vertex[i])
-		{
-			link_data[vertex1].linked_vertex[i] = vertex2;
-			break;
-		}
-		++i;
+		link_data[vertex1].ep->next = new1;
+		link_data[vertex1].ep = new1;
 	}
-	i = 0;
-	while(i<3)
+	else
 	{
-		if(!link_data[vertex2].linked_vertex[i])
-		{
-			link_data[vertex2].linked_vertex[i] = vertex1;
-			break;
-		}
-		++i;
+		link_data[vertex1].sp = new1;
+		link_data[vertex1].ep = new1;
+	}
+	if(link_data[vertex2].sp)
+	{
+		link_data[vertex2].ep->next = new2;
+		link_data[vertex2].ep = new2;
+	}
+	else
+	{
+		link_data[vertex2].sp = new2;
+		link_data[vertex2].ep = new2;
 	}
 }
 
 void link_data_to_tree(link *link_data, int cur_vertex)
 {
-	int i;
+	q *link_vertex;
 	int next_vertex;
-	i = 0;
-	while(i<3)
+	link_vertex = link_data[cur_vertex].sp;
+	while(link_vertex)
 	{
-		next_vertex = link_data[cur_vertex].linked_vertex[i];
+		next_vertex = link_vertex->linked_vertex;
 		if(link_data[cur_vertex].root_vertex != next_vertex && next_vertex) 
 		{
 			link_data[next_vertex].root_vertex = cur_vertex;
 			link_data_to_tree(link_data,next_vertex);
 		}
+		link_vertex = link_vertex->next;
+	}
+}
+
+void free_q(q *ptr)
+{
+	if(ptr)
+	{
+		free_q(ptr->next);
+		free(ptr);
+	}
+}
+
+void free_link_data(link *link_data, int vertex_cnt)
+{
+	int i;
+	i = 0;
+	while(i<=vertex_cnt)
+	{
+		free_q(link_data[i].sp);
 		++i;
 	}
+	free(link_data);
 }
