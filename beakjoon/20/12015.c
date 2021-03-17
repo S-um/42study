@@ -13,7 +13,6 @@ int main(void)
 	int lis_index;
 	int lis_circuit;
 	int i;
-	int temp;
 
 	scanf("%d",&arr_len);
 	lis = (int*)malloc((arr_len+1)*sizeof(int));
@@ -34,8 +33,7 @@ int main(void)
 		}
 		else
 		{
-			temp = lower_bound(lis,lis_index,arr[i]);
-			lis[temp] = arr[i];
+			lis[lower_bound(lis,lis_index,arr[i])] = arr[i];
 		}
 		++i;
 	}
