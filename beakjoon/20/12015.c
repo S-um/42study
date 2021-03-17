@@ -53,7 +53,7 @@ int lower_bound(int *arr, int arr_len, int target_num)
 
 	while(start != middle)
 	{
-		if(arr[middle]<=target_num)
+		if(arr[middle]<target_num)
 			start = middle;
 		else
 			end = middle;
