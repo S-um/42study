@@ -5,8 +5,30 @@
 void push_min_q(int *min_q, int num);
 void push_max_q(int *max_q, int num);
 int set_q(int *min_q, int *max_q);
-void clean_min_q(int *min_q);
-void clean_max_q(int *max_q);
+void clean_min_q(int *min_q, int index);
+void clean_max_q(int *max_q, int index);
+
+void print(int *q)
+{
+	int i;
+	int two;
+	int jump;
+	i = 1;
+	two = 2;
+	jump = 1;
+	while(i<q[0])
+	{
+		printf("%d ",q[i]);
+		if(i == jump)
+		{
+			printf("\n");
+			jump += two;
+			two *= 2;
+		}
+		++i;
+	}
+	printf("\n");
+}
 
 int main(void)
 {
@@ -36,10 +58,10 @@ int main(void)
 		else
 			push_min_q(min_q,input);
 
-		if(set_q(min_q,max_q))
+		while(set_q(min_q,max_q))
 		{
-			clean_min_q(min_q);
-			clean_max_q(max_q);
+			clean_min_q(min_q,1);
+			clean_max_q(max_q,1);
 		}
 		printf("%d\n",max_q[1]);
 		++i;
@@ -65,8 +87,12 @@ void push_min_q(int *min_q, int num)
 			index /= 2;
 		}
 		else
+		{
+			clean_min_q(min_q,index);
 			break;
+		}
 	}
+	clean_min_q(min_q,index);
 }
 
 void push_max_q(int *max_q, int num)
@@ -86,8 +112,12 @@ void push_max_q(int *max_q, int num)
 			index /= 2;
 		}
 		else
+		{
+			clean_max_q(max_q,index);
 			break;
+		}
 	}
+	clean_max_q(max_q,index);
 }
 
 int set_q(int *min_q, int *max_q)
@@ -103,12 +133,10 @@ int set_q(int *min_q, int *max_q)
 	return 0;
 }
 
-void clean_min_q(int *min_q)
+void clean_min_q(int *min_q, int index)
 {
-	int index;
 	int temp;
 	int select;
-	index = 1;
 	while(index*2+1<min_q[0])
 	{
 		select = min_q[index*2]>min_q[index*2+1];
@@ -130,22 +158,22 @@ void clean_min_q(int *min_q)
 	}
 }
 
-void clean_max_q(int *max_q)
+void clean_max_q(int *max_q,int index)
 {
-	int index;
 	int temp;
 	int select;
-	index = 1;
 	while(index*2+1<max_q[0])
 	{
-		select = max_q[index*2]>max_q[index*2+1];
+		select = max_q[index*2]<max_q[index*2+1];
 		if(max_q[index*2+select]>max_q[index])
 		{
 			temp = max_q[index];
 			max_q[index] = max_q[index*2+select];
-			max_q[index*2+1] = temp;
+			max_q[index*2+select] = temp;
 			index = index*2+select;
 		}
+		else
+			break;
 	}
 	if(index*2+1 == max_q[0] && max_q[index*2]>max_q[index])
 	{
