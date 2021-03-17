@@ -2,138 +2,155 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void maxPush(int *maxq, int num, int index);
-void minPush(int *minq, int num, int index);
-void maxSort(int *maxq, int index);
-void minSort(int *minq, int index);
-int setQ(int *maxq, int *minq);
+void push_min_q(int *min_q, int num);
+void push_max_q(int *max_q, int num);
+int set_q(int *min_q, int *max_q);
+void clean_min_q(int *min_q);
+void clean_max_q(int *max_q);
 
 int main(void)
 {
-	int n, index, i, num, temp, flipflop;
-	scanf("%d", &n);
-	int *maxq = (int*)calloc(n,sizeof(int));
-	int *minq= (int*)calloc(n,sizeof(int));
+	int arr_len;
+	int input;
+	int *min_q;
+	int *max_q;
+	int i;
+
+	scanf("%d",&arr_len);
+	min_q = (int*)malloc(arr_len*sizeof(int));
+	max_q = (int*)malloc(arr_len*sizeof(int));
+	min_q[0] = 1;
+	max_q[0] = 2;
+
+	scanf("%d",&input);
+	max_q[1] = input;
+	printf("%d\n",input);
 
 	i = 1;
-	index = 1;
-	flipflop = 0;
-	scanf("%d",&num);
-	maxPush(maxq,num,index);
-	printf("%d\n",num);
+	while(i<arr_len)
+	{
+		scanf("%d",&input);
 
-	while(i<n) {
-		scanf("%d", &num);
-		if(flipflop) {
-			maxPush(maxq,num,index);
-			if(setQ(maxq,minq))
-				minSort(minq,index-1);
-			flipflop = 0;
-		}else{
-			minPush(minq,num,index);
-			if(setQ(maxq,minq))
-				maxSort(maxq,index);
-			++index;
-			flipflop = 1;
+		if(min_q[0] == max_q[0])
+			push_max_q(max_q,input);
+		else
+			push_min_q(min_q,input);
+
+		if(set_q(min_q,max_q))
+		{
+			clean_min_q(min_q);
+			clean_max_q(max_q);
 		}
-		printf("%d\n",maxq[1]);
+		printf("%d\n",max_q[1]);
 		++i;
 	}
-
-	free(maxq);
-	free(minq);
+	free(min_q);
+	free(max_q);
 }
 
-void maxPush(int *maxq, int num, int index)
+void push_min_q(int *min_q, int num)
 {
+	int index;
 	int temp;
-	maxq[index] = num;
-	while(index>1) {
-		if(maxq[index]>maxq[index/2]) {
-			temp = maxq[index/2];
-			maxq[index/2] = maxq[index];
-			maxq[index] = temp;
+	index = min_q[0];
+	min_q[min_q[0]] = num;
+	++min_q[0];
+	while(index>1)
+	{
+		if(min_q[index/2]>min_q[index])
+		{
+			temp = min_q[index];
+			min_q[index] = min_q[index/2];
+			min_q[index/2] = temp;
 			index /= 2;
-		}else
+		}
+		else
 			break;
 	}
 }
 
-void minPush(int *minq, int num, int index)
+void push_max_q(int *max_q, int num)
 {
+	int index;
 	int temp;
-	minq[index] = num;
-	while(index>1) {
-		if(minq[index]<minq[index/2]) {
-			temp = minq[index];
-			minq[index] = minq[index/2];
-			minq[index/2] = temp;
+	index = max_q[0];
+	max_q[max_q[0]] = num;
+	++max_q[0];
+	while(index>1)
+	{
+		if(max_q[index/2]<max_q[index])
+		{
+			temp = max_q[index];
+			max_q[index] = max_q[index/2];
+			max_q[index/2] = temp;
 			index /= 2;
-		}else
+		}
+		else
 			break;
 	}
 }
 
-void maxSort(int *maxq, int index)
+int set_q(int *min_q, int *max_q)
 {
-	int i, temp;
-
-	i = 1;
-	while(i*2<=index) {
-		if((i*2+1<=index && maxq[i*2]>=maxq[i*2+1]) || i*2+1>index || !maxq[i*2+1]) {
-			if(maxq[i*2]>maxq[i]) {
-				temp = maxq[i];
-				maxq[i] = maxq[i*2];
-				maxq[i*2] = temp;
-				i *= 2;
-			}else
-				break;
-		}else{
-			if(maxq[i*2+1]>maxq[i]) {
-				temp = maxq[i];
-				maxq[i] = maxq[i*2+1];
-				maxq[i*2+1] = temp;
-				i = i*2+1;
-			}else
-				break;
-		}
-	}
-}
-
-void minSort(int *minq, int index)
-{
-	int i, temp;
-
-	i = 1;
-	while(i*2<=index) {
-		if((i*2+1<=index && minq[i*2]<=minq[i*2+1]) || i*2+1>index || !minq[i*2+1]) {
-			if(minq[i*2]<minq[i]){
-				temp = minq[i];
-				minq[i] = minq[i*2];
-				minq[i*2] = temp;
-				i *= 2;
-			}else
-				break;
-		}else{
-			if(minq[i*2+1]<minq[i]) {
-				temp = minq[i];
-				minq[i] = minq[i*2+1];
-				minq[i*2+1] = temp;
-				i = i*2+1;
-			}else
-				break;
-		}
-	}
-}
-
-int setQ(int *maxq, int *minq)
-{
-	if(maxq[1]>minq[1]) {
-		int temp;
-		temp = maxq[1];
-		maxq[1] = minq[1];
-		minq[1] = temp;
+	int temp;
+	if(min_q[1]<max_q[1])
+	{
+		temp = min_q[1];
+		min_q[1] = max_q[1];
+		max_q[1] = temp;
 		return 1;
 	}
 	return 0;
+}
+
+void clean_min_q(int *min_q)
+{
+	int index;
+	int temp;
+	int select;
+	index = 1;
+	while(index*2+1<min_q[0])
+	{
+		select = min_q[index*2]>min_q[index*2+1];
+		if(min_q[index*2+select]<min_q[index])
+		{
+			temp = min_q[index];
+			min_q[index] = min_q[index*2+select];
+			min_q[index*2+select] = temp;
+			index = index*2+select;
+		}
+		else
+			break;
+	}
+	if(index*2+1 == min_q[0] && min_q[index*2]<min_q[index])
+	{
+		temp = min_q[index];
+		min_q[index] = min_q[index*2];
+		min_q[index*2] = temp;
+	}
+}
+
+void clean_max_q(int *max_q)
+{
+	int index;
+	int temp;
+	int select;
+	index = 1;
+	while(index*2+1<max_q[0])
+	{
+		select = max_q[index*2]>max_q[index*2+1];
+		if(max_q[index*2+select]>max_q[index])
+		{
+			temp = max_q[index];
+			max_q[index] = max_q[index*2+select];
+			max_q[index*2+1] = temp;
+			index = index*2+select;
+		}
+	}
+	if(index*2+1 == max_q[0] && max_q[index*2]>max_q[index])
+	{
+		temp = max_q[index];
+		max_q[index] = max_q[index*2];
+		max_q[index*2] = temp;
+	}
 }
