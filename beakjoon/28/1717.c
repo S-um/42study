@@ -42,6 +42,7 @@ int main(void)
 		++i;
 	}
 	free(union_data);
+	free(union_size);
 }
 
 void union_set(int ver1, int ver2, int *union_data)
@@ -50,15 +51,15 @@ void union_set(int ver1, int ver2, int *union_data)
 	int ver2_top = find_top(ver2,union_data);
 	if(ver1_top == ver2_top)
 		return;
-	if(union_size[ver1]<=union_size[ver2])
+	if(union_size[ver1_top]<=union_size[ver2_top])
 	{
-		union_data[ver1] = ver2;
-		union_size[ver2] += union_size[ver1];
+		union_data[ver1_top] = ver2_top;
+		union_size[ver2_top] += union_size[ver1_top];
 	}
 	else
 	{
-		union_data[ver2] = ver1;
-		union_size[ver1] += union_size[ver2];
+		union_data[ver2_top] = ver1_top;
+		union_size[ver1_top] += union_size[ver2_top];
 	}
 }
 
