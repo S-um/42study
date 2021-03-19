@@ -3,10 +3,9 @@
 
 int main(void)
 {
-	int a;
-
-	if(scanf("%d",&a) == EOF)
-		printf("EOF\n");
+	unsigned int a = 3;
+	if(a>(unsigned int)-1)
+		printf("working\n");
 	else
-		printf("%d\n", a);
+		printf("error\n");
 }
