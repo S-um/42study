@@ -16,7 +16,6 @@ int main(void)
 		printf("Case %d: ",i++);
 		cnt_tree(vertex_cnt,line_cnt);
 		scanf("%d %d",&vertex_cnt,&line_cnt);
-		++i;
 	}
 }
 
