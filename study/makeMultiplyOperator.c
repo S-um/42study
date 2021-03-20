@@ -7,12 +7,61 @@ int input_bit(int a, char bit, char bit_index);
 int sum_by_bit(int sum, int a, int b, char *is_over, char bit_index);
 int add_bit_by_bit_index(int sum, char bit, char bit_index, char *is_over);
 
+int multi(int a,int b);
+int multi_by_bit(int a, int b, char bit_index);
+
 int main(void)
 {
 	int a, b;
 	scanf("%d %d",&a,&b);
-	printf("sum : %d\n",sum(a,b));
+	printf("multi : %d\n",multi(a,b));
 }
+
+int multi(int a,int b)
+{
+	int ret = 0;
+	ret = multi_by_bit(a,b,0);
+	ret = sum(ret, multi_by_bit(a,b,1));
+	ret = sum(ret, multi_by_bit(a,b,2));
+	ret = sum(ret, multi_by_bit(a,b,3));
+	ret = sum(ret, multi_by_bit(a,b,4));
+	ret = sum(ret, multi_by_bit(a,b,5));
+	ret = sum(ret, multi_by_bit(a,b,6));
+	ret = sum(ret, multi_by_bit(a,b,7));
+	ret = sum(ret, multi_by_bit(a,b,8));
+	ret = sum(ret, multi_by_bit(a,b,9));
+	ret = sum(ret, multi_by_bit(a,b,10));
+	ret = sum(ret, multi_by_bit(a,b,11));
+	ret = sum(ret, multi_by_bit(a,b,12));
+	ret = sum(ret, multi_by_bit(a,b,13));
+	ret = sum(ret, multi_by_bit(a,b,14));
+	ret = sum(ret, multi_by_bit(a,b,15));
+	ret = sum(ret, multi_by_bit(a,b,16));
+	ret = sum(ret, multi_by_bit(a,b,17));
+	ret = sum(ret, multi_by_bit(a,b,18));
+	ret = sum(ret, multi_by_bit(a,b,19));
+	ret = sum(ret, multi_by_bit(a,b,20));
+	ret = sum(ret, multi_by_bit(a,b,21));
+	ret = sum(ret, multi_by_bit(a,b,22));
+	ret = sum(ret, multi_by_bit(a,b,23));
+	ret = sum(ret, multi_by_bit(a,b,24));
+	ret = sum(ret, multi_by_bit(a,b,25));
+	ret = sum(ret, multi_by_bit(a,b,26));
+	ret = sum(ret, multi_by_bit(a,b,27));
+	ret = sum(ret, multi_by_bit(a,b,28));
+	ret = sum(ret, multi_by_bit(a,b,29));
+	ret = sum(ret, multi_by_bit(a,b,30));
+	ret = sum(ret, multi_by_bit(a,b,31));
+	return ret;
+}
+
+int multi_by_bit(int a, int b, char bit_index)
+{
+	if(get_bit(b,bit_index))
+		return a << bit_index;
+	return 0;
+}
+
 
 int sum(int a, int b)
 {
